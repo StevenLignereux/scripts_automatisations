@@ -2,7 +2,7 @@
 #
 # ouvrir (open) <- nom du fichier
 # ecrire (write) / lire (read)
-#fermer (close)
+# fermer (close)
 #
 
 f = open("mon_fichier.txt", "r")
