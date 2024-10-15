@@ -29,4 +29,28 @@ donnees = {}
 
 ajouter_data_depuis_wb(wb1, donnees)
 ajouter_data_depuis_wb(wb2, donnees)
+ajouter_data_depuis_wb(wb3, donnees)
+
 print(donnees)
+
+wb_sortie = openpyxl.Workbook()
+sheet = wb_sortie.active
+
+sheet["A1"] = "Article"
+sheet["B1"] = "Octobre"
+sheet["C1"] = "Novembre"
+sheet["D1"] = "Décembre"
+
+row = 2
+
+for i in donnees.items():
+    nom_article = i[0]
+    ventes = i[1]
+    sheet.cell(row, 1).value = nom_article
+
+    for j in range(0, len(ventes)):
+        sheet.cell(row, 2 + j).value = ventes[j]
+
+    row += 1
+
+wb_sortie.save("total_ventes_trimestre.xlsx")
