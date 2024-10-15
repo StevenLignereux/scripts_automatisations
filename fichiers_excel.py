@@ -2,6 +2,7 @@
 # .XLSX
 # openpyxl
 import openpyxl
+import openpyxl.chart
 
 wb1 = openpyxl.load_workbook("octobre.xlsx", data_only=True)
 wb2 = openpyxl.load_workbook("novembre.xlsx", data_only=True)
@@ -52,5 +53,17 @@ for i in donnees.items():
         sheet.cell(row, 2 + j).value = ventes[j]
 
     row += 1
+
+
+chart_ref = openpyxl.chart.Reference(
+    sheet, min_col=2, min_row=2, max_col=sheet.max_column, max_row=2
+)
+chart_serie = openpyxl.chart.Series(chart_ref, title="Total ventes en €")
+chart = openpyxl.chart.BarChart()
+
+chart.title = "Evolution du prix des pommes"
+chart.append(chart_serie)
+
+sheet.add_chart(chart, "F2")
 
 wb_sortie.save("total_ventes_trimestre.xlsx")
