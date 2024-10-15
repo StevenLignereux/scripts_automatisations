@@ -3,18 +3,30 @@
 # openpyxl
 import openpyxl
 
-wb = openpyxl.load_workbook("octobre.xlsx")
+wb1 = openpyxl.load_workbook("octobre.xlsx", data_only=True)
+wb2 = openpyxl.load_workbook("novembre.xlsx", data_only=True)
+wb3 = openpyxl.load_workbook("decembre.xlsx", data_only=True)
 
-print(wb.sheetnames)
 
-# sheet = wb[wb.sheetnames[0]]
-sheet = wb.active
-cell = sheet["B7"]
+def ajouter_data_depuis_wb(wb, d):
+    sheet = wb.active
 
-print(cell.value)
+    for row in range(2, sheet.max_row):
+        nom_article = sheet.cell(row, 1).value
 
-""" for row in range(2, 7):
-    cell = sheet.cell(row, 2)
-    print(cell.value) """
-print(sheet.max_row)
-print(sheet.max_column)
+        if not nom_article:
+            break
+
+        total_ventes = sheet.cell(row, 4).value
+
+        if d.get(nom_article):
+            d[nom_article].append(total_ventes)
+        else:
+            d[nom_article] = [total_ventes]
+
+
+donnees = {}
+
+ajouter_data_depuis_wb(wb1, donnees)
+ajouter_data_depuis_wb(wb2, donnees)
+print(donnees)
